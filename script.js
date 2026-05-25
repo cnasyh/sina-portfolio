@@ -1,51 +1,36 @@
-const themeToggle = document.getElementById("themeToggle");
-const menuToggle = document.getElementById("menuToggle");
-const navLinks = document.getElementById("navLinks");
-const year = document.getElementById("year");
+// Theme
+const themeBtn = document.getElementById('themeBtn');
+const body = document.body;
 
-const savedTheme = localStorage.getItem("portfolio-theme");
-
-if (savedTheme === "dark") {
-  document.body.classList.add("dark-mode");
-  themeToggle.textContent = "☀️";
+if (localStorage.getItem('theme') === 'dark') {
+  body.classList.add('dark');
+  themeBtn.textContent = '○';
 }
 
-themeToggle.addEventListener("click", () => {
-  document.body.classList.toggle("dark-mode");
-
-  const isDarkMode = document.body.classList.contains("dark-mode");
-
-  if (isDarkMode) {
-    localStorage.setItem("portfolio-theme", "dark");
-    themeToggle.textContent = "☀️";
-  } else {
-    localStorage.setItem("portfolio-theme", "light");
-    themeToggle.textContent = "🌙";
-  }
+themeBtn.addEventListener('click', () => {
+  body.classList.toggle('dark');
+  const dark = body.classList.contains('dark');
+  localStorage.setItem('theme', dark ? 'dark' : 'light');
+  themeBtn.textContent = dark ? '○' : '☾';
 });
 
-menuToggle.addEventListener("click", () => {
-  navLinks.classList.toggle("active");
+// Mobile menu
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
 
-  const menuIsOpen = navLinks.classList.contains("active");
-
-  if (menuIsOpen) {
-    menuToggle.textContent = "×";
-    menuToggle.setAttribute("aria-label", "Close navigation menu");
-  } else {
-    menuToggle.textContent = "☰";
-    menuToggle.setAttribute("aria-label", "Open navigation menu");
-  }
+burger.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('open');
+  burger.textContent = open ? '×' : '☰';
+  burger.setAttribute('aria-label', open ? 'Close menu' : 'Menu');
 });
 
-const navItems = document.querySelectorAll(".nav-links a");
-
-navItems.forEach((item) => {
-  item.addEventListener("click", () => {
-    navLinks.classList.remove("active");
-    menuToggle.textContent = "☰";
-    menuToggle.setAttribute("aria-label", "Open navigation menu");
+mobileMenu.querySelectorAll('.mm-link').forEach(link => {
+  link.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    burger.textContent = '☰';
+    burger.setAttribute('aria-label', 'Menu');
   });
 });
 
-year.textContent = new Date().getFullYear();
+// Footer year
+document.getElementById('year').textContent = new Date().getFullYear();
